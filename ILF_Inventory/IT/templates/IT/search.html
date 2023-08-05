@@ -1,0 +1,104 @@
+{% extends 'IT/base.html' %}
+
+{% block content %}
+    
+
+
+<div class="row">
+    {% comment %} <div class="col-md-10 col-12 mx-auto mt-5">
+        
+    </div> {% endcomment %}
+    <div class="col-md-10 col-12 mx-auto mt-5">
+        <h1 class="fw-light">Search Results</h1>
+        <div class="d-flex justify-content-end">
+            <form method="GET" class="d-flex" action="{% url 'it_search-item' %}">
+                <input type = "text" name = "query" class="form-control me-sm-2" placeholder="Search..." value="{{ query }}">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+        {% if items %}
+                <div class="col-md-10 col-12 mx-auto mt-5">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Device</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Loc.</th>
+                                <th scope="col">Desc.</th>
+                                <th scope="col">Comp_name</th>
+                                <th scope="col">Win_ver</th>
+                                <th scope="col">Supp.</th>
+                                <th scope="col">Warranty</th>
+                                <th scope="col">Warr_exp</th>
+                                <th scope="col">Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if items|length == 0 %}
+                            <tr>
+                                <th scope="row">-</th>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                            </tr>
+                            {% endif %}
+        
+                            {% for item in items %}
+        
+                        
+                            <tr>
+                                <th scope="row">{{ item.id }}</th>
+                                <td>{{ item.staff_name }}</td>
+                                <td>{{ item.devices }}</td>
+                                <td>{{ item.model }}</td>
+                                <td>{{ item.floor }}</td>
+                                <td>{{ item.technical_description }}</td>
+                                <td>{{ item.computer_name }}</td>
+                                <td>{{ item.win_version }}</td>
+                                <td>{{ item.supplier }}</td>
+                                <td>{{ item.warranty_period }}</td>
+                                <td>{{ item.warranty_expired }}</td>
+                                <td>{{ item.active }}</td>
+                                {% comment %} {% if item.id in low_inventory_ids %}
+                                    <td class="text-danger">{{ item.devices }}</td>
+                                {% else %}
+                                    <td class="text-success">{{ item.model }}</td>
+                                {% endif %} {% endcomment %}
+                                {% comment %} <td>{{ item.project.name }}</td> {% endcomment %}
+                                <td><a href="{% url 'it_edit-item' item.id %}" class="btn btn-outline-secondary">Edit</a></td>
+                                <td><a href="{% url 'it_delete-item' item.id %}" class="btn btn-danger">Delete</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- Add other fields as needed -->
+                </div>
+        {% else %}
+        <div class="row">
+            <div class="col-sm-11 col-md-4 mx-auto mt-5 px-3">
+                <p class ="fw-light">No items found.</p>
+            </div>
+        </div>
+        
+           
+        {% endif %}
+    </div>
+{% endblock %}

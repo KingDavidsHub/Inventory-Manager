@@ -1,0 +1,70 @@
+{% extends 'business/base.html' %}
+
+{% block content %}
+	{% if messages %}
+		<div class="row mt-3">
+			{% for message in messages %}
+				{% if message.tags == 'error' %}
+					<div class="col-md-10 col-12 mx-auto alert alert-danger">
+						{{ message }}
+					</div>
+				{% else %}
+					<div class="col-md-10 col-12 mx-auto alert alert-success">
+						{{ message }}
+					</div>
+				{% endif %}	
+			{% endfor %}
+		</div>
+	{% endif %}
+	<div class="row">
+		<div class="col-md-10 col-12 mx-auto mt-5">
+			<div class="d-flex justify-content-end">
+				<a href="{% url 'business_add-item' %}" class="btn btn-primary">+</a>
+			</div>
+
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Staff</th>
+						<th scope="col">Item</th>
+						<th scope="col">Total</th>
+						<th scope="col">Floor</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% if items|length == 0 %}
+					<tr>
+						<th scope="row">-</th>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td></td>
+						<td></td>
+					</tr>
+					{% endif %}
+
+					{% for item in items %}
+
+				
+					<tr>
+						<th scope="row">{{ item.id }}</th>
+						<td>{{ item.staff_name }}</td>
+						<td>{{ item.item_name }}</td>
+						<td>{{ item.quantity }}</td>
+						<td>{{ item.floor }}</td>
+						{% comment %} {% if item.id in low_inventory_ids %}
+							<td class="text-danger">{{ item.left }}</td>
+						{% else %}
+							<td class="text-success">{{ item.left }}</td>
+						{% endif %}  {% endcomment %}
+						<td><a href="{% url 'business_edit-item' item.id %}" class="btn btn-outline-secondary">Edit</a></td>
+						<td><a href="{% url 'business_delete-item' item.id %}" class="btn btn-danger">Delete</a></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock content %}
